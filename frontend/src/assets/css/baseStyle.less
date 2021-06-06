@@ -1,0 +1,95 @@
+
+.avatar-medium {
+  border-radius: 50%;
+  height: 80px;
+  width: 80px;
+}
+.display-card {
+  background-color: white;
+  border-radius: 10px;
+  margin: 10px;
+}
+.avatar-small {
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+}
+.avatar-inline(@size) {
+  border-radius: 50%;
+  height: @size;
+  width: @size;
+  display: inline-block;
+}
+@font-dark-grey: #565656;
+@font-medium-grey: #989898;
+@bg-light-purple: #ebd3e8;
+@font-light-grey: #e0e0e0;
+.button-base {
+  outline: none;
+  border-radius: 5px;
+  background-color: rebeccapurple;
+  padding: 8px 32px 8px 24px;
+  min-width: 140px;
+  margin: 0;
+  &:hover {
+    background-color: mediumpurple;
+  }
+  & > i {
+    margin-right: 10px;
+  }
+  &.disabled {
+    background-color: #e7e7e7;
+    color: #565656;
+  }
+  font-size: 14px;
+}
+.dot-title(@dot-color) {
+  font-size: 20px;
+  margin: 16px 20px;
+  &:before {
+    content: "";
+    display: inline-block;
+    background-color: @dot-color !important;
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    margin-right: 5px;
+    margin-bottom: 2px;
+  }
+}
+.p-ellipsis(@line) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: @line;
+}
+@keyframes gradientBackground {
+  0% {background-position-x: 100%}
+  100% {background-position-x: 0}
+}
+.changing-background {
+  background-image: linear-gradient(to right, mediumpurple, transparent);
+  background-size: 200% 200%;
+  animation: gradientBackground 0.3s linear 1 both;
+}
+.random-color(@index, @color-list) when (@index > 0){
+  &>div:nth-of-type(@{index})>h2 {
+    .dot-title(extract(@color-list, @index))
+  }
+  .random-color(@index - 1, @color-list)
+}
+
+.label-list-base(@index, @font-color-list, @bg-color-list) when (@index > 0){
+  li:nth-child(3n+@{index}) {
+    color: extract(@font-color-list, @index);
+    background-color: extract(@bg-color-list, @index);
+  }
+  .label-list-base(@index - 1, @font-color-list, @bg-color-list)
+}
+
+.label-list {
+  @font-colors: orange, purple, #ff6e80;
+  @bg-colors: #fff2e5, #efebfd, #ffeef0;
+  .label-list-base(3, @font-colors, @bg-colors);
+}
