@@ -1,6 +1,5 @@
 from django.shortcuts import render
-from .models import User_Static
-from .models import User
+from .models import User, Song
 from django.http import JsonResponse
 from django.http import HttpResponse
 from django.http import HttpResponseBadRequest
@@ -44,5 +43,29 @@ def User_Info(request):
         'songcount': user.song_cnt,
         'follows': user.follows,
         'follower': user.follower,
+        'backgroundurl': user.backgroundurl,
+        'avatarurl': user.avaterurl
+    }
+    return JsonResponse(Ans)
+
+
+def paper_Info(request):
+    Data = request.GET
+    if not Data or 'songid' not in Data:
+        return HttpResponseBadRequest("No Data")
+
+    try:
+        songid = int(Data['songid'])
+    except ValueError as e:
+        return HttpResponseNotAllowed("Not Int Id")
+    song = Song.objects.filter(songid=songid)
+    if len(song) == 0:
+        return HttpResponseBadRequest("No Such Song")
+    song = song[0]
+    Ans = {
+        'name': song.name,
+        'singer': song.singer,
+        'collection': song.collection,
+        'coverurl': song.Coverurl
     }
     return JsonResponse(Ans)

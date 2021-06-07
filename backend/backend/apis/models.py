@@ -12,6 +12,9 @@ class User(models.Model):
     follows = models.IntegerField(db_index=False)
     follower = models.IntegerField(db_index=False)
     song_cnt = models.IntegerField(db_index=False)
+    backgroundurl = models.CharField(max_length=250)
+    avatarurl = models.CharField(max_length=250)
+    
 
 
 class Song(models.Model):
@@ -34,3 +37,11 @@ class Record(models.Model):
 
     class Meta:
         ordering = ['-Percentage']
+
+
+class user_token(models.Model):
+    token = models.CharField(max_length=521)
+    userid = models.IntegerField(db_index=True)
+    username = models.CharField(db_index=True, max_length=200)
+
+
