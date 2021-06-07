@@ -20,15 +20,15 @@ class User(models.Model):
 
 class Song(models.Model):
     songid = models.BigIntegerField(db_index=True)
-    name = models.CharField(max_length=128)
-    singer = models.CharField(max_length=128)
-    collection = models.CharField(max_length=128)
+    name = models.CharField(max_length=500)
+    singer = models.CharField(max_length=1500)
+    collection = models.CharField(max_length=500)
     Coverurl = models.CharField(max_length=500)
 
 
 class Lyric(models.Model):
     songid = models.BigIntegerField(db_index=True)
-    lyr = models.CharField(max_length=1200)
+    lyr = models.TextField(max_length=52000)
 
 
 class Record(models.Model):
