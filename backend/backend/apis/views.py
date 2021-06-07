@@ -69,3 +69,24 @@ def paper_Info(request):
         'coverurl': song.Coverurl
     }
     return JsonResponse(Ans)
+
+
+def Get_lyris(request):
+    Data = request.GET
+    if not Data or 'songid' not in Data:
+        return HttpResponseBadRequest("No Data")
+
+    try:
+        songid = int(Data['songid'])
+    except ValueError as e:
+        return HttpResponseNotAllowed("Not Int Id")
+
+    song = Song.objects.filter(songid=songid)
+    if len(song) == 0:
+        Ans = {'lyrics': ""}
+    else:
+        song = song[0]
+        Ans = {'lyrics': song.lyr}
+
+    return JsonResponse(Ans)
+

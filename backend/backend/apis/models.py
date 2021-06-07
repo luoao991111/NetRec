@@ -14,7 +14,8 @@ class User(models.Model):
     song_cnt = models.IntegerField(db_index=False)
     backgroundurl = models.CharField(max_length=250)
     avatarurl = models.CharField(max_length=250)
-    
+    choices = ((0, '保密'), (1, '男'), (2, '女'))
+    gender = model.IntegerField(db_index=True, choices=choices)
 
 
 class Song(models.Model):
@@ -43,5 +44,3 @@ class user_token(models.Model):
     token = models.CharField(max_length=521)
     userid = models.IntegerField(db_index=True)
     username = models.CharField(db_index=True, max_length=200)
-
-
