@@ -88,10 +88,16 @@ def Get_lyris(request):
 
     song = Song.objects.filter(songid=songid)
     if len(song) == 0:
-        Ans = {'lyrics': ""}
+        Ans = {'lyrics': [""], 'time': 0}
     else:
         song = song[0]
-        Ans = {'lyrics': song.lyr}
+        lyrs = song.lyr.strip()
+        Time = 1 if lyrs[0] == '[' else 0
+        if Time:
+            lyrs = ['[' + x for x in lyrs.split('[')[1:]]
+        else:
+            lyrs = lyrs.split('\n')
+        Ans = {'time': Time, 'lyrics': lyrs}
 
     return JsonResponse(Ans)
 
