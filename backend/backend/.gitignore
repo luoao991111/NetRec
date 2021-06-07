@@ -1,0 +1,4 @@
+apis/__pycache__/*
+apis/migrations/*
+backend/__pycache__
+__pycache__
