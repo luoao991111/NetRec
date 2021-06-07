@@ -9,13 +9,9 @@ class User(models.Model):
     userid = models.IntegerField(db_index=True)
     level = models.IntegerField(db_index=False)
     Signature = models.CharField(max_length=500)
-
-
-class User_Static(models.Model):
-    song_cnt = models.IntegerField(db_index=False)
-    userid = models.IntegerField(db_index=True)
     follows = models.IntegerField(db_index=False)
     follower = models.IntegerField(db_index=False)
+    song_cnt = models.IntegerField(db_index=False)
 
 
 class Song(models.Model):
@@ -31,10 +27,11 @@ class Lyric(models.Model):
     songid = models.IntegerField(db_index=True)
     lyr = models.CharField(max_length=1200)
 
-class Record(models.Model):
-	userid = models.IntegerField(db_index=True)
-	songid = models.IntegerField(db_index=True)
-	Percentage = models.FloatField()
 
-	class Meta:
-		ordering = ['-Percentage']
+class Record(models.Model):
+    userid = models.IntegerField(db_index=True)
+    songid = models.IntegerField(db_index=True)
+    Percentage = models.FloatField()
+
+    class Meta:
+        ordering = ['-Percentage']
