@@ -7,8 +7,9 @@ from django.http import JsonResponse
 from django.http import HttpResponse
 from django.http import HttpResponseBadRequest
 from django.http import HttpResponseNotAllowed
-from .models import Record
+from .models import Record, Lyric
 from django.views.decorators.csrf import csrf_exempt
+from .utils.Recom import Recomend_fun
 
 
 # Create your views here.
@@ -69,7 +70,7 @@ def Song_Info(request):
     song = song[0]
     Ans = {
         'name': song.name,
-        'singer': song.singer,
+        'singer': song.singer.split('@'),
         'collection': song.collection,
         'coverurl': song.Coverurl
     }
@@ -86,7 +87,7 @@ def Get_lyris(request):
     except ValueError as e:
         return HttpResponseNotAllowed("Not Int Id")
 
-    song = Song.objects.filter(songid=songid)
+    song = Lyric.objects.filter(songid=songid)
     if len(song) == 0:
         Ans = {'lyrics': [""], 'time': 0}
     else:
@@ -169,4 +170,18 @@ def mainpage(request):
     except ValueError as e:
         return HttpResponseNotAllowed("Not Int Id")
 
-    return JsonResponse({'recommend': [34078817]})
+    songr = Record.objects.filter(userid=userid)
+    if len(songr) == 0:
+        return JsonResponse({'recommend': []})
+    songlist = [{'songid': x.songid, 'score': x.Percentage} for x in songr]
+    Rec_list = Recomend_fun(songlist, 100)
+    """
+    for lin in Rec_list:
+        print(lin)
+    """
+    Ans = [{'songid': x[0]} for x in Rec_list]
+    for Idx in range(len(Ans)):
+        Ans[Idx]['pre'] = Ans[Idx - 1]['songid'] if Idx != 0 else Ans[-1]['songid']
+        Ans[Idx]['nex'] = Ans[Idx + 1]['songid'] if Idx != len(Ans) - 1 else Ans[0]['songid']
+
+    return JsonResponse({'recommend': Ans})
