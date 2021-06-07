@@ -20,7 +20,6 @@ class Song(models.Model):
     singer = models.CharField(max_length=128)
     collection = models.CharField(max_length=128)
     Coverurl = models.CharField(max_length=500)
-    Songurl = models.CharField(max_length=500)
 
 
 class Lyric(models.Model):
