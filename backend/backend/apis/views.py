@@ -207,3 +207,18 @@ def Recommend_On_Page(request):
     shuffle(Ans)
     return JsonResponse({"Recomend": Ans[:20]})
 
+
+def Who_Listen_This(request):
+    Data = request.GET
+    if not Data or 'songid' not in Data:
+        return HttpResponseBadRequest("No Data")
+
+    try:
+        songid = int(Data['songid'])
+    except ValueError as e:
+        return HttpResponseNotAllowed("Not Int Id")
+
+    persons = Record.objects.filter(songid=songid).orderby('-Percentage')
+    userid = request.META.get('HTTP_USERID', 0)
+    users = [x.userid for x in persons if x.userid != userid]
+    return JsonResponse("Users": users[:10])
