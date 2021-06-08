@@ -9,7 +9,8 @@ from django.http import HttpResponseBadRequest
 from django.http import HttpResponseNotAllowed
 from .models import Record, Lyric
 from django.views.decorators.csrf import csrf_exempt
-from .utils.Recom import Recomend_fun
+from .utils.Recom import Recomend_fun, Recommend_Song
+from random import shuffle
 
 
 # Create your views here.
@@ -95,7 +96,8 @@ def Get_lyris(request):
         lyrs = song.lyr.strip()
         Time = 1 if lyrs[0] == '[' else 0
         if Time:
-            lyrs = ['[' + x for x in lyrs.split('[')[1:]]
+            lyrs = [('[' + x).replace('\n', ' ')
+                    for x in lyrs.split('[')[1:]]
         else:
             lyrs = lyrs.split('\n')
         Ans = {'time': Time, 'lyrics': lyrs}
@@ -109,7 +111,7 @@ def Get_Record(request):
         return HttpResponseBadRequest("No Data")
 
     try:
-        userid = int(Data['songid'])
+        userid = int(Data['userid'])
     except ValueError as e:
         return HttpResponseNotAllowed("Not Int Id")
 
@@ -118,7 +120,7 @@ def Get_Record(request):
     for rec in record:
         Record_list.append({
             'songid': rec.songid,
-            'percentage': rec.ercentage
+            'percentage': rec.Percentage
         })
 
     return JsonResponse({'record': Record_list})
@@ -179,9 +181,29 @@ def mainpage(request):
     for lin in Rec_list:
         print(lin)
     """
-    Ans = [{'songid': x[0]} for x in Rec_list]
+    Ans = [x[0] for x in Rec_list]
+    """
     for Idx in range(len(Ans)):
-        Ans[Idx]['pre'] = Ans[Idx - 1]['songid'] if Idx != 0 else Ans[-1]['songid']
-        Ans[Idx]['nex'] = Ans[Idx + 1]['songid'] if Idx != len(Ans) - 1 else Ans[0]['songid']
+        Ans[Idx]['pre'] = Ans[Idx - 1]['songid'] if\
+            Idx != 0 else Ans[-1]['songid']
+        Ans[Idx]['nex'] = Ans[Idx + 1]['songid'] if\
+            Idx != len(Ans) - 1 else Ans[0]['songid']
+    """
+    shuffle(Ans)
+    return JsonResponse({'recommend': Ans[:30]})
 
-    return JsonResponse({'recommend': Ans})
+
+def Recommend_On_Page(request):
+    Data = request.GET
+    if not Data or 'songid' not in Data:
+        return HttpResponseBadRequest("No Data")
+
+    try:
+        songid = int(Data['songid'])
+    except ValueError as e:
+        return HttpResponseNotAllowed("Not Int Id")
+
+    Ans = Recommend_Song(songid, 50)
+    shuffle(Ans)
+    return JsonResponse({"Recomend": Ans[:20]})
+

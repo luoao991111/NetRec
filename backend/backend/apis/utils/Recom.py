@@ -21,7 +21,7 @@ def Recomend_fun(songlist, number, K=5):
 
     Kmeans_label = K_means(local_Embeddings.detach().numpy(), K)
     # print(Kmeans_label)
-   
+
     Masks, Weights = [], []
     for k in range(K):
         mask = np.where(Kmeans_label == k)
@@ -47,3 +47,11 @@ def Recomend_fun(songlist, number, K=5):
                     break
 
     return Chosen[:number]
+
+
+def Recommend_Song(songid, number):
+    selfEmb = Embeddings[SongId2Pos[songid]]
+    ranks = Embeddings.matmul(selfEmb)
+    values, indices = ranks.topk(number)
+    Ans = [Pos2SongId[x.item()] for x in indices[:number]]
+    return Ans
