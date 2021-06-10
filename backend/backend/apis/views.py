@@ -94,7 +94,7 @@ def Get_lyris(request):
     else:
         song = song[0]
         lyrs = song.lyr.strip()
-        Time = 1 if lyrs[0] == '[' else 0
+        Time = 1 if len(lyrs) == 0 or lyrs[0] == '[' else 0
         if Time:
             lyrs = [('[' + x).replace('\n', ' ')
                     for x in lyrs.split('[')[1:]]
@@ -176,7 +176,7 @@ def mainpage(request):
     if len(songr) == 0:
         return JsonResponse({'recommend': []})
     songlist = [{'songid': x.songid, 'score': x.Percentage} for x in songr]
-    Rec_list = Recomend_fun(songlist, 100)
+    Rec_list = Recomend_fun(songlist, 80)
     """
     for lin in Rec_list:
         print(lin)
@@ -204,6 +204,7 @@ def Recommend_On_Page(request):
         return HttpResponseNotAllowed("Not Int Id")
 
     Ans = Recommend_Song(songid, 50)
+    Ans = list(set(Ans) - {songid})
     shuffle(Ans)
     return JsonResponse({"Recomend": Ans[:20]})
 
@@ -218,7 +219,7 @@ def Who_Listen_This(request):
     except ValueError as e:
         return HttpResponseNotAllowed("Not Int Id")
 
-    persons = Record.objects.filter(songid=songid).orderby('-Percentage')
+    persons = Record.objects.filter(songid=songid).order_by('-Percentage')
     userid = request.META.get('HTTP_USERID', 0)
     users = [x.userid for x in persons if x.userid != userid]
-    return JsonResponse("Users": users[:10])
+    return JsonResponse({"Users": users[:10]})

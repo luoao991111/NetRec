@@ -8,7 +8,7 @@ from .Kmeans import K_means
 import torch
 import numpy as np
 
-from Const_Var import Embeddings, Pos2SongId, SongId2Pos
+from Const_Var import Embeddings, Pos2SongId, SongId2Pos, Forbidden
 
 
 def Recomend_fun(songlist, number, K=5):
@@ -40,7 +40,7 @@ def Recomend_fun(songlist, number, K=5):
         cnt = 0
         for idx, pos in enumerate(indices):
             songid = Pos2SongId[pos.item()]
-            if songid not in songset:
+            if songid not in songset and songid not in Forbidden:
                 Chosen.append((songid, values[idx].item()))
                 cnt += 1
                 if cnt == Weights[k]:
@@ -53,5 +53,6 @@ def Recommend_Song(songid, number):
     selfEmb = Embeddings[SongId2Pos[songid]]
     ranks = Embeddings.matmul(selfEmb)
     values, indices = ranks.topk(number)
-    Ans = [Pos2SongId[x.item()] for x in indices[:number]]
+    Ans = [Pos2SongId[x.item()] for x in indices[:number]
+           if x.item() not in Forbidden and x.item() != songid]
     return Ans

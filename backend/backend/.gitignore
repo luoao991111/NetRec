@@ -1,5 +1,6 @@
 apis/__pycache__/*
 apis/migrations/*
+apis/utils/__pycahce__/*
 backend/__pycache__
 __pycache__
 songid2embeddings.pickle

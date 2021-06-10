@@ -17,3 +17,6 @@ for k, v in SongId2Emb.items():
 Embeddings = torch.tensor(Embeddings, requires_grad=False)
 Embeddings = Embeddings / \
     torch.sqrt(torch.sum(Embeddings * Embeddings, 1)).reshape(-1, 1)
+
+with open(os.path.join(BASE_DIR, 'Forbidden.pickle'), 'rb') as Fin:
+    Forbidden = pickle.load(Fin)
