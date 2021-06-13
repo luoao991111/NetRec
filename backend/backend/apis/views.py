@@ -181,7 +181,7 @@ def mainpage(request):
     for lin in Rec_list:
         print(lin)
     """
-    Ans = [x[0] for x in Rec_list]
+    Ans = list(set([x[0] for x in Rec_list]))
     """
     for Idx in range(len(Ans)):
         Ans[Idx]['pre'] = Ans[Idx - 1]['songid'] if\
