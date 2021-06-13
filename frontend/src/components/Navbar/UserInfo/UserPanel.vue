@@ -1,17 +1,13 @@
 <template>
   <div class="user-panel" :class="{'user-panel-active': show}">
     <ul>
-      <li  @click="jumpToSettings">
-        <i class="fa fa-cogs"/>
-        Settings
+      <li @click="jumpToUser">
+        <i class="fa fa-github"/>
+        My Profile
       </li>
       <li @click="signOut">
         <i class="fa fa-sign-out"/>
         Sign Out
-      </li>
-      <li @click="jumpToUser">
-        <i class="fa fa-github"/>
-        My Profile
       </li>
     </ul>
   </div>
@@ -31,7 +27,7 @@ export default {
     },
     jumpToUser () {
       if (this.$store.state.remoteId !== -1)
-        this.$router.push('/profile/' + this.$store.state.localId)
+        this.$router.push('/profile/' + this.$store.state.userId)
     }
   }
 }

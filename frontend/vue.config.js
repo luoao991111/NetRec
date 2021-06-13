@@ -9,6 +9,9 @@ module.exports = {
             },
             "/user": {
                 target: "http://192.168.3.75:8008",
+            },
+            "/song": {
+                target: "http://localhost:3000"
             }
         }
     }

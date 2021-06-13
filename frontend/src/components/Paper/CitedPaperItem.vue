@@ -6,7 +6,7 @@
     <div class="paper-item-info">
       <h2> {{title}} </h2>
       <span><i class="fa fa-user-circle-o"/> {{authorList}} </span>
-      <span><i class="fa fa-clock-o"/> {{year}} </span>
+      <span><i class="fa fa-bookmark-o"/> {{album}} </span>
       <ul class="label-list">
         <li v-for="tag in tags"> {{tag}} </li>
       </ul>
@@ -24,21 +24,22 @@ export default {
     this.id = this.paperInfo.id
     this.click = this.paperInfo.click
     this.$http({
-      url: "/api/citecardinfo",
+      url: "/api/songinfo",
       params: {
-        paperid: this.id
+        songid: this.id
       }
     }).then(res => {
       const data = res.data
-      this.title = data.title
-      this.year = data.year
-      this.imgurl = data.imgurl
-      this.authorList = JSON.parse(JSON.stringify(data.author_name_list)).slice(0,10).join(", ")
-      if (data.author_name_list.length > 10)
-        this.authorList = this.authorList + "..."
-      this.tags = JSON.parse(JSON.stringify(data.tags))
-      this.tags = this.tags.sort((a, b) => a.length - b.length)
-      this.tags = this.tags.slice(0,3)
+      this.title = data.name
+      // this.year = data.year
+      this.imgurl = data.coverurl
+      this.authorList = JSON.parse(JSON.stringify(data.singer)).slice(0,10).join(", ")
+      this.album = data.collection
+      // if (data.author_name_list.length > 10)
+      //   this.authorList = this.authorList + "..."
+      // this.tags = JSON.parse(JSON.stringify(data.tags))
+      // this.tags = this.tags.sort((a, b) => a.length - b.length)
+      // this.tags = this.tags.slice(0,3)
       return new Promise(resolve => resolve())
     }).then(() => {
       this.loading = false
@@ -50,7 +51,7 @@ export default {
       id: "",
       click: 0,
       title: "",
-      year: 0,
+      album: "",
       imgurl: "",
       authorList: "",
       tags: []
@@ -63,7 +64,7 @@ export default {
   methods: {
     jumpToPaper () {
       if (this.click)
-        this.$router.push("/paper/" + this.id)
+        this.$router.push("/music/" + this.id)
     }
   }
 }
@@ -94,6 +95,7 @@ export default {
     & > img, & > div.image-not-loaded {
       position: relative;
       width: 18%;
+      max-height: 200px;
     }
     & > img {
       object-fit: contain;

@@ -7,7 +7,7 @@
     <div class="pop-up-window" v-if="exportOptions">
       <ExportOptions  @closePopup="exportOptions = false" :id="paperId"/>
     </div>
-    <BrowseHistory v-if="this.$store.state.login"/>
+<!--    <BrowseHistory v-if="this.$store.state.login"/>-->
   </div>
 </template>
 <script>

@@ -4,8 +4,6 @@
     <div class="clearfix">
       <div class="sidebar-content">
         <div class="featured-items">
-          <h2> Recommended Authors </h2>
-          <AuthorInfo v-for="author in recAuthors" :author-id="author"/>
         </div>
       </div>
       <div class="main-content">
@@ -29,14 +27,6 @@ import axios from "axios";
 export default {
   name: 'Home',
   created() {
-    this.$http({
-      url: "/api/recauthor",
-      params: {
-        local_id: this.$store.state.localId
-      }
-    }).then(res => {
-      this.recAuthors = JSON.parse(JSON.stringify(res.data.Rec_Authors))
-    })
   },
   components: {
     AuthorInfo: () => import("@/components/Home/AuthorInfo"),
@@ -67,7 +57,7 @@ export default {
 </script>
 <style scoped>
 .sidebar-content {
-  width: 25%;
+  width: 20%;
   float: left;
   padding: 40px;
   box-sizing: border-box;
@@ -79,7 +69,7 @@ export default {
   margin-left: 10px;
 }
 .main-content {
-  width: 75%;
+  width: 80%;
   float: left;
   box-sizing: border-box;
   margin-top: 100px;
@@ -91,7 +81,7 @@ export default {
   position: relative;
   display: flex;
   width: 100%;
-  justify-content: flex-end;
+  justify-content: flex-start;
   float: right;
   padding: 10px 40px 20px 40px;
   border-bottom: 1px solid #e7e7e7;
@@ -115,7 +105,7 @@ export default {
   background-color: mediumpurple;
   position: absolute;
   bottom: 0;
-  right: 80px;
+  left: 80px;
   transition: all 0.3s ease-in-out;
   box-shadow: 0 -5px 20px mediumpurple;
   transform: translateX(var(--tag-position));

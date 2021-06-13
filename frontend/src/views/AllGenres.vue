@@ -14,12 +14,11 @@ export default {
     this.$http({
       url: "/api/mainpage",
       params: {
-        local_id: this.$store.state.localId
+        userid: this.$store.state.userId
       }
     }).then(res => {
       const jsRes = res.data
-      this.papers = jsRes.Rec
-      this.submitViewRec()
+      this.papers = jsRes.recommend
     })
   },
   data () {

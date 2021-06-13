@@ -1,6 +1,6 @@
 <template>
   <div @click="jumpToIndex">
-    Ace
+    Net
     <strong> REC </strong>
   </div>
 </template>

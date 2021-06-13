@@ -3,7 +3,7 @@
     <img :src="imgurl" alt="">
     <div class="scholar-info-container">
       {{name}}
-      <span> {{affiliation}} </span>
+      <span> lv {{level}} </span>
     </div>
   </div>
 </template>
@@ -17,23 +17,24 @@ export default {
   props: ['userId'],
   created() {
     this.$http({
-      url: "/user/user_info",
+      url: "/api/userinfo",
       params: {
-        local_id: this.userId
+        userid: this.userId
       }
     }).then(res => {
       const data = res.data
-      this.name = JSON.parse(JSON.stringify(data.pinyin))
-      this.name = this.name.join(" ")
-      this.name = nameToUpperCase(this.name)
-      this.imgurl = data.avatar_url
-      this.affiliation = data.affiliation
+      this.name = data.username
+      // this.name = this.name.join(" ")
+      // this.name = nameToUpperCase(this.name)
+      this.imgurl = data.avatarurl
+      this.level = data.level
+      // this.affiliation = data.affiliation
     })
   },
   data () {
     return {
       name: "",
-      affiliation: "",
+      level: "",
       imgurl: ""
     }
   },
@@ -46,5 +47,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

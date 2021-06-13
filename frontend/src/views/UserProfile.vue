@@ -3,32 +3,9 @@
     <div class="profile-top-container">
       <div class="profile-left-box">
         <UserAvatarContainer :userId="userId" :key="'avatar-container' + userId"/>
-        <div>
-          <ul class="tag-list">
-            <li v-for="tag in tags"> {{tag}} </li>
-          </ul>
-        </div>
       </div>
       <div class="profile-right-box">
-        <RelatedScholars :localId="userId" :key="'related-scholar' + userId"/>
-      </div>
-    </div>
-    <div class="profile-top-container">
-      <div class="profile-left-box">
-        <div>
-          <h2> Cited Trend </h2>
-          <div ref="cited-trend" style="height: 200px"></div>
-        </div>
-        <div>
-          <HistoryChart :eduList="eduList" :workList="workList" :paperList="paperList" :key="'history' + userId"/>
-        </div>
-      </div>
-      <div class="profile-right-box">
-        <div class="history-container">
-          <h2> Published Papers </h2>
-          <CitedPaper :relatedPapers="paperList" :genre="'cited'"></CitedPaper>
-        </div>
-<!--        <HistoryChart :eduList="eduList" :workList="workList" :paperList="paperList"/>-->
+        <CitedPaper :relatedPapers="paperList" :genre="'cited'"></CitedPaper>
       </div>
     </div>
   </div>
@@ -44,14 +21,14 @@ export default {
     next()
     if (to.path.startsWith('/profile') && from.params.id !== to.params.id) {
       this.renderData()
-      this.renderSvg()
     }
   },
   created() {
+    this.userId = this.$route.params.id
     this.renderData()
   },
   mounted() {
-    this.renderSvg()
+    // this.renderSvg()
   },
   components: {
     UserAvatarContainer,
@@ -69,52 +46,19 @@ export default {
       cited: 0,
       eduList: {},
       workList: {},
-      paperList: {
-        Ref: {},
-        Rec: {},
-        Clickable: []
-      }
+      paperList: []
     }
   },
   methods: {
     renderData () {
       this.userId = this.$route.params.id
       this.$http({
-        url: "/user/user_info",
+        url: "/api/record",
         params: {
-          local_id: this.userId,
+          userid: this.userId
         }
       }).then(res => {
-        this.tags = JSON.parse(JSON.stringify(res.data.research_list)).slice(0, 4)
-      })
-      this.$http({
-        url: "/user/user_edu",
-        params: {
-          local_id: this.userId
-        }
-      }).then(res => {
-        const data = res.data
-        this.eduList = JSON.parse(JSON.stringify(res.data.edu_list))
-      })
-      this.$http({
-        url: "/user/user_work",
-        params: {
-          local_id: this.userId
-        }
-      }).then(res => {
-        const data = res.data
-        this.workList = JSON.parse(JSON.stringify(res.data.work_list))
-      })
-
-      this.$http({
-        url: "/user/user_papers",
-        params: {
-          local_id: this.userId
-        }
-      }).then(res => {
-        this.$set(this.paperList, 'Ref', JSON.parse(JSON.stringify(res.data.paper_list)).slice(0, 20))
-        for (let i = 0; i < this.paperList.Ref.length; i++)
-          this.paperList.Clickable.push(1)
+       this.paperList = res.data.record.map(d => d.songid)
       })
     },
     renderSvg () {

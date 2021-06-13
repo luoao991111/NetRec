@@ -43,20 +43,19 @@ export default {
      signIn () {
        this.submitting = true
        const signInData = new URLSearchParams()
-       signInData.append('user_name', this.userName)
+       signInData.append('username', this.userName)
        signInData.append('password', this.password)
        this.$http({
          method: "post",
-         url: "/user//user_login",
+         url: "/api/login",
          data: signInData
        }).then(res => {
          const data = res.data
          this.$store.commit('changeLogin',
              {
                authorization: res.data.token,
-               localId: res.data.local_id,
-               remoteId: res.data.remote_id,
-               userName: res.data.user_name
+               userId: res.data.userid,
+               userName: res.data.username
              })
          this.$router.push("/")
        }).catch(e => {

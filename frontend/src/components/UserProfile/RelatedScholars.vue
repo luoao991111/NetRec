@@ -1,7 +1,6 @@
 <template>
   <div class="related-scholar">
-    <h2> Related Scholars </h2>
-    <span> {{relatedScholars.length}} </span>
+    <h2> Related Users </h2>
     <div class="scholar-list">
       <RelatedScholar v-for="scholar in relatedScholars" :userId="scholar"/>
     </div>
@@ -13,16 +12,16 @@ import RelatedScholar from "@/components/UserProfile/RelatedScholar";
 export default {
   name: "RelatedScholars",
   components: {RelatedScholar},
-  props: ['localId'],
+  props: ['songId'],
   created() {
     this.$http({
-      url: "/user/user_related_authors",
+      url: "/api/wholisten",
       params: {
-        local_id: this.localId
+        songid: this.songId
       }
     }).then(res => {
       const data = res.data
-      this.relatedScholars = JSON.parse(JSON.stringify(res.data.related_authors))
+      this.relatedScholars = JSON.parse(JSON.stringify(res.data.Users))
     })
   },
   data () {
@@ -56,7 +55,7 @@ export default {
   width: 100%;
   & > div {
     box-sizing: border-box;
-    width: 50%;
+    width: 100%;
     display: flex;
     justify-content: flex-start;
     padding: 10px;
@@ -90,10 +89,13 @@ export default {
       color: @font-dark-grey;
       font-weight: 600;
       & > span {
-        display: block;
-        color: @font-medium-grey;
+        display: inline-block;
+        color: white;
+        background-color: mediumpurple;
         font-size: 13px;
-        margin-top: 5px;
+        margin-left: 10px;
+        padding: 2px 8px;
+        border-radius: 4px;
       }
     }
   }

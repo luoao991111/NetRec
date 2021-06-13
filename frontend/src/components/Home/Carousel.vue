@@ -33,37 +33,28 @@ export default {
     return {
       displayItemIdx: 1,
       defaultItemIdx: 1,
-      color: ['#FBADAF', '#ECB7D4', '#91D3E1', "#2978b5"],
+      color: ['#FBADAF', '#ECB7D4', '#91D3E1', "#FBADAF"],
       items: [
         {
-          text: "CVPR: Internaltional Conference on Computer Vision and Pattern Recogintion",
-          imgurl: require('../../assets/CVPR.png'),
-          desc: ["05/26 - Paper Presentation Requirements for CVPR 2021 available\n",
-              "05/26 - CVPR'21 is accepting applicants for DEI registration waivers\n",
-              "5/14 - The 24 hour Main Conference, Workshop and Tutorial schedules have been posted",
-              "03/25 - Media information is available"],
-          time: "June 19th to June 25th",
-          originURL: "http://cvpr2021.thecvf.com/"
+          text: "Happier Than Ever",
+          imgurl: require('../../assets/happierthanever.jpg'),
+          desc: ["Happier Than Ever is the upcoming second studio album by American singer and songwriter Billie Eilish, scheduled to be released on July 30, 2021, by Darkroom and Interscope Records. It follows Eilish's 2019 debut album, When We All Fall Asleep, Where Do We Go?."],
+          time: "2020 – January 2021",
+          originURL: "https://www.nme.com/news/music/billie-eilish-announces-happier-than-ever-2022-world-tour-dates-2946067"
         },
         {
-          text: "IJCAI 2021",
-          imgurl: require('../../assets/ijicai.png'),
-          desc: ["04/30 Paper notification",
-          "03/24~28 Author response period",
-          "02/07 Summary reject notification",
-          "01/20 Full paper submission deadline",
-          "01/16 Author information deadline"],
-          time: "August 21st to August 26th",
-          originURL: "https://ijcai-21.org/"
+          text: "Pale Blue",
+          imgurl: require('../../assets/paleblue.jpg'),
+          desc: ["※特典は「先着」となり、数に限りがあります。一部の店舗/ECサイトでは特典が付かない場合がございます",
+          "ご予約ご購入の際は、特典の有無を必ず店頭/ECサイトでご確認下さい。"],
+          time: "2021-05-31",
+          originURL: "https://music.163.com/#/album?id=127827934"
         },
         {
-          text: "ICCV 2021",
-          imgurl: require('../../assets/iccv.png'),
-          desc: ["08/17 Camera Ready Deadline",
-          "07/22 Final Decision to Authors",
-          "06/17 Rebuttals Due",
-          "03/24 Supplementary Materials Deadline"],
-          originURL: "http://iccv2021.thecvf.com/home"
+          text: "ハートフォレスト",
+          imgurl: require('../../assets/heart.jpg'),
+          desc: ["こちらはスマートフォンゲーム『アークナイツ』のイメージソングに起用されており、小倉の柔らかな歌声に包まれるような暖かみのあるハートフルな１曲。身の回り「優しさ」や「感謝」、そして困難を超えた先にある「希望」をテーマとした、明るく前向きな気持ちになれる歌詞にもぜひ注目して聴いて欲しい"],
+          originURL: "https://y.qq.com/n/ryqq/albumDetail/002pqx1X3cLm0M"
         }
       ]
     }

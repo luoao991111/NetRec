@@ -1,9 +1,9 @@
 <template>
   <div class="cited-paper-container" v-if="genre === 'cited'">
-    <CitedPaperItem v-for="(ref, index) in relatedPapers.Ref"
-                    :paperInfo="{id: ref, click: relatedPapers.Clickable[index]}"
+    <CitedPaperItem v-for="(ref, index) in relatedPapers"
+                    :paperInfo="{id: ref, click: true}"
                     :key="ref"/>
-    <span class="no-result" v-if="relatedPapers.Ref.length ===0"> No result </span>
+    <span class="no-result" v-if="relatedPapers.length ===0"> No result </span>
   </div>
   <div class="cited-paper-container" v-else>
     <CitedPaperItem v-for="(ref, index) in relatedPapers.Rec"

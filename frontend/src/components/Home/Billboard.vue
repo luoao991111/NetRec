@@ -14,7 +14,7 @@
       <span class="desc" v-for="news in data.desc">
         {{news}}
       </span>
-      <button class="see-paper-btn"><a :href="data.originURL" target="_blank"> See This Conference </a></button>
+      <button class="see-paper-btn"><a :href="data.originURL" target="_blank"> See Detail </a></button>
     </div>
   </div>
 </template>
@@ -118,5 +118,6 @@ export default {
   color: #e7e7e7;
   margin: 10px;
   padding-left: 20px;
+  line-height: 28px;
 }
 </style>

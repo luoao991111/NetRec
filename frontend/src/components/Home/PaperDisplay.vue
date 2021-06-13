@@ -12,7 +12,7 @@
             <ul class="paper-display-star clearfix">
               <li class="active" v-for="i in stars"><i class="fa fa-star"/></li>
               <li v-for="i in 5 - stars"><i class="fa fa-star"/></li>
-              <li class="paper-views"> {{cited}} Cited </li>
+              <li class="paper-views"> {{cited}} Comments </li>
             </ul>
             <p> {{desc}} </p>
           </div>
@@ -38,16 +38,18 @@ export default {
   props: ['srcPath'],
   mounted () {
     this.$http({
-      url: "/api/CardInfo",
-      params: {paperid: this.srcPath}
+      url: "/api/songinfo",
+      params: {
+        songid: this.srcPath
+      }
     }).then(res => {
       const data = res.data
-      this.title = data.title
+      this.title = data.name
       this.desc = data.abstract
-      this.author = data.author_name_list[0]
-      this.imgSrc = data.imgurl
+      this.author = data.singer[0]
+      this.imgSrc = data.coverurl
       this.loaded = 1
-      this.cited = data.citation_count
+      this.cited = 1000
     }).catch(error => {
       console.log(error)
       this.loaded = 2
@@ -65,7 +67,7 @@ export default {
   },
   methods: {
     jumpToDetail (paperId) {
-      this.$router.push("/paper/" + paperId)
+      this.$router.push("/music/" + paperId)
     }
   },
   computed: {
@@ -105,7 +107,7 @@ export default {
 .paper-display-main > img, .image-not-loaded{
   box-shadow: 0 5px 25px rgba(0,0,0,0.2);
   width: 40% !important;
-  min-height: 248px;
+  height: 248px;
   transform: translate(7%, -15%);
   float: left;
 }

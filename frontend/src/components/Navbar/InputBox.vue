@@ -2,8 +2,7 @@
   <div class="input-wrapper">
     <i class="fa fa-search"/>
     <input type="text" placeholder="Search for something" class="input-box"
-           v-model="queryString"
-            @keyup.enter="submit"/>
+           v-model="queryString"/>
   </div>
 </template>
 

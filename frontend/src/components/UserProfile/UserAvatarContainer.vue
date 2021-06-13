@@ -4,24 +4,24 @@
       <img :src="imgurl" alt="">
       <div class="user-basic-info">
         <h2> {{name}} </h2>
-        <span><i class="fa fa-bank"/> {{affiliation}} </span>
+        <span><i class="fa fa-angle-double-up"/> LV. {{level}} </span>
         <span><i class="fa fa-location-arrow"/> Shanghai, China Mainland </span>
-        <span><i class="fa fa-envelope-o"/> -- </span>
+        <span><i class="fa fa-quote-left"/> {{signature}} </span>
       </div>
     </div>
     <i class="follow-button fa fa-ellipsis-v"/>
     <div class="user-stat">
       <div>
         {{citeCount}}
-        <span> Cited </span>
+        <span> Songs </span>
       </div>
       <div>
         {{ paperCount }}
-        <span> Papers </span>
+        <span> Follow </span>
       </div>
       <div>
         {{hIndex}}
-        <span> H-Index </span>
+        <span> Follower </span>
       </div>
     </div>
   </div>
@@ -36,39 +36,31 @@ export default {
   props: ['userId'],
   created() {
     this.$http({
-      url: "/api/authorcitecount",
+      url: "/api/userinfo",
       params: {
-        local_id: this.userId
-      }
-    }).then(res => {
-      this.citeCount = res.data.citation_count
-      this.paperCount = res.data.paper_count
-      this.hIndex = res.data.h_index
-    })
-    this.$http({
-      url: "/user/user_info",
-      params: {
-        local_id: this.userId,
+        userid: this.userId,
       }
     }).then(res => {
       const data = res.data
-      this.name = JSON.parse(JSON.stringify(data.pinyin))
-      this.name = this.name.join(" ")
-      this.name = nameToUpperCase(this.name)
-      this.imgurl = data.avatar_url
-      this.affiliation = data.affiliation
-    }).catch(e => console.log(e))
+      this.name = data.username
+      this.imgurl = data.avatarurl
+      this.level = data.level
+      this.citeCount = data.songcount
+      this.paperCount = data.follows
+      this.hIndex = data.follower
+      this.signature = data.signature
+    }).catch(e => {})
 
-    // this.$translate('上海交通大学',{to: 'en'}).then(res => console.log(res))
   },
   data () {
     return {
       name: "",
       imgurl: "",
-      affiliation: "",
+      level: 0,
       citeCount: 0,
       paperCount: 0,
-      hIndex: 0
+      hIndex: 0,
+      signature: ""
     }
   }
 }
